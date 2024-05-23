@@ -4,3 +4,5 @@ stock_analysis.spec
 *.pyc
 old/
 files/
+etf_ui.py
+etf_analysis.spec
