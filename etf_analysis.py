@@ -172,7 +172,7 @@ class MyMainWindow(QMainWindow):
                         markersize=8,
                         markeredgecolor="black",
                     )
-                elif eval(re.sub('df', 'self.df', re.sub(r'\[-1\]', '[i]', re.sub(r'\[-2\]', '[i-1]', self.search_condition_text)))): #탐색조건식 반영:
+                elif eval(re.sub('df', 'self.df', re.sub(r'\[-(\d+)\]', lambda x: f'[i-{int(x.group(1)) - 1}]', self.search_condition_text))): # 탐색조건식 반영
                     p1.plot(
                         self.df.index.values[i],
                         self.df.low.values[i] * 0.98,
@@ -518,7 +518,7 @@ class MyMainWindow(QMainWindow):
 
         try:
             with open('files/search_condition.txt', 'r') as file:
-                search_condition_text = file.read().strip()
+                self.search_condition_text = file.read().strip()
                 self.lineEditSearchCondition.setText(self.search_condition_text)
         except Exception as e:
             print(f"Error reading sell_condition.txt: {e}")
